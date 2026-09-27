@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Quarto</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <h1>QUARTO</h1>
+  <p class="subtitle">4 in a row, sharing an attribute</p>
+</header>
+
+<main>
+  <!-- ============================== SETUP SCREEN ============================== -->
+  <section id="setup-screen" class="screen">
+    <p class="intro">Two players on the same screen, or you against an AI that thinks
+      with Monte Carlo Tree Search -- your call.</p>
+
+    <div class="card setup-card">
+      <p class="section-label">MODE</p>
+      <div class="segmented" id="mode-toggle">
+        <button class="segment active" data-value="two_players" type="button">Two players</button>
+        <button class="segment" data-value="computer" type="button">Vs computer</button>
+        <button class="segment" data-value="online" type="button">Online</button>
+      </div>
+
+      <div id="computer-options" class="hidden">
+        <p class="section-label">DIFFICULTY</p>
+        <div class="segmented" id="difficulty-toggle">
+          <button class="segment" data-value="Easy" type="button">Easy</button>
+          <button class="segment active" data-value="Medium" type="button">Medium</button>
+          <button class="segment" data-value="Hard" type="button">Hard</button>
+          <button class="segment" data-value="Expert" type="button">Expert</button>
+        </div>
+
+        <p class="section-label">WHO GOES FIRST</p>
+        <div class="segmented" id="first-toggle">
+          <button class="segment active" data-value="human" type="button">Me</button>
+          <button class="segment" data-value="computer" type="button">Computer</button>
+        </div>
+      </div>
+
+      <div id="online-options" class="hidden">
+        <p class="section-label">SERVER ADDRESS</p>
+        <input id="server-url" class="text-input" type="text" value="wss://quarto-server.onrender.com/ws">
+        <p class="hint">(the address of your <code>uvicorn</code> server -- not this page's own address)</p>
+
+        <div id="rejoin-row" class="hidden">
+          <button id="rejoin-btn" class="btn btn-accent" type="button">Rejoin previous game</button>
+        </div>
+
+        <p class="section-label">CREATE A NEW GAME</p>
+        <button id="create-room-btn" class="btn btn-accent" type="button">Create room</button>
+
+        <p class="section-label" style="margin-top:16px;">OR JOIN WITH A CODE</p>
+        <div class="join-row">
+          <input id="join-code-input" class="text-input code-input" type="text" maxlength="5" placeholder="ABCDE">
+          <button id="join-room-btn" class="btn btn-dark" type="button">Join</button>
+        </div>
+
+        <p id="online-status" class="hint online-status"></p>
+
+        <div id="room-link-row" class="hidden">
+          <input id="room-link-input" class="text-input" type="text" readonly>
+          <button id="copy-link-btn" class="btn btn-dark" type="button">Copy link</button>
+        </div>
+      </div>
+    </div>
+
+    <button id="start-btn" class="btn btn-accent" type="button">Start game</button>
+  </section>
+
+  <!-- ============================== GAME SCREEN ============================== -->
+  <section id="game-screen" class="screen hidden">
+    <div class="status-row">
+      <div id="status-badge" class="status-badge"></div>
+      <button id="info-btn" class="info-btn" type="button" aria-label="How to read a piece">i</button>
+    </div>
+    <p id="room-code-label" class="hint hidden"></p>
+
+    <div class="game-body">
+      <canvas id="board-canvas" class="board-canvas"></canvas>
+
+      <div class="side-panel">
+        <p class="section-label">PIECE TO PLACE</p>
+        <div class="card hand-card">
+          <canvas id="hand-canvas"></canvas>
+        </div>
+
+        <p class="section-label">REMAINING PIECES</p>
+        <p class="hint">(click one to hand it to your opponent)</p>
+        <canvas id="pool-canvas" class="pool-canvas"></canvas>
+
+        <p id="think-label" class="hint think"></p>
+
+        <button id="new-game-btn" class="btn btn-dark" type="button">New game</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog id="legend-dialog">
+  <p class="section-label">HOW TO READ A PIECE</p>
+  <canvas id="legend-canvas"></canvas>
+  <button id="legend-close-btn" class="btn btn-dark" type="button">Close</button>
+</dialog>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
